@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title><%= htmlWebpackPlugin.options.title %></title>
+    <script type="text/javascript">
+      <%= compilation.assets[htmlWebpackPlugin.files.chunks.main.entry.substr(htmlWebpackPlugin.files.publicPath.length)].source() %>
+    </script>
+  </head>
+  <body>
+    <div class="wrap">
+      <%= htmlWebpackPlugin.options.date %>
+    </div>
+    <% for(var key in htmlWebpackPlugin.files) {%>
+      <%= key %> : <%= JSON.stringify(htmlWebpackPlugin.files[key]) %>
+    <% } %>
+
+    <% for(var k in htmlWebpackPlugin.files.chunks) {%>
+      <% if(k != 'main') {%>
+        <script type="text/javascript" src="<%= htmlWebpackPlugin.files.chunks[k].entry %>"></script>
+      <% } %>
+    <% } %>
+  </body>
+</html>
