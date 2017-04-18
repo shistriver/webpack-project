@@ -12,26 +12,28 @@ import ratings from './components/ratings/ratings.vue'
 Vue.use(VueRouter)
 Vue.use(VueResource)
 
+const routes = [{
+  path: '/',
+  redirect: '/goods'
+}, {
+  path: '/goods',
+  component: goods
+}, {
+  path: '/ratings',
+  component: ratings
+}, {
+  path: '/seller',
+  component: seller
+}]
+
 const router = new VueRouter({
-  mode: 'history',
   linkActiveClass: 'active',
-  routes: [
-    {path: '/', component: seller},
-    {path: '/goods', component: goods},
-    {path: '/seller', component: seller},
-    {path: '/ratings', component: ratings}
-  ]
+  routes
 })
 
+/* eslint-disable no-new */
 new Vue({
+  el: '#app',
   router,
-  template: '<App/>',
-  components: {App}
-}).$mount('#app')
-
-// new Vue({
-//   el: '#app',
-//   router,
-//   template: '<App/>',
-//   components: {App}
-// })
+  render: h => h(App)
+})

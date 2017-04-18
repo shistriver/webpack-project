@@ -84,10 +84,13 @@
   import BScroll from 'better-scroll'
   import star from '../star/star.vue'
   import split from '../split/split.vue'
+  import {saveToLocal, loadFromLocal} from '../../common/js/store'
   export default{
     data() {
       return {
-        favorite: false
+        favorite: (() => {
+          return loadFromLocal(this.seller.id, 'favorite', false)
+        })()
       }
     },
     props: {
@@ -109,6 +112,7 @@
     methods: {
       toggleFavorite() {
         this.favorite = !this.favorite
+        saveToLocal(this.seller.id, 'favorite', this.favorite)
       },
       _initScroll() {
         if (!this.scroll) {
