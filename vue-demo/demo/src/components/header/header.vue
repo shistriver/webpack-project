@@ -23,7 +23,8 @@
         </div>
       </div>
       <div class="support-count" @click="showDetail">
-        <span class="count">{{seller.supports.length}}个</span>
+        <span class="count" v-if="seller.supports">{{seller.supports.length}}个</span>
+        <span class="count" v-else>0个</span>
         <i class="icon-keyboard_arrow_right"></i>
       </div>
     </div>
@@ -35,17 +36,40 @@
     <div class="header-bg">
       <img :src="seller.avatar" width="100%" height="100%">
     </div>
-    <div v-show="detailShow" class="detail">
+    <transition name="fade">
+      <div v-show="detailShow" class="detail">
       <div class="detail-wrapper clearfix">
         <div class="detail-main">
           <h1 class="name">{{seller.name}}</h1>
-          <star :size="48" :score="seller.score"></star>
+          <div class="star-wrapper">
+            <star :size="48" :score="seller.score"></star>
+          </div>
+          <div class="title">
+            <div class="line"></div>
+            <div class="text">优惠信息</div>
+            <div class="line"></div>
+          </div>
+          <ul class="supports" v-if="seller.supports">
+            <li v-for="item in seller.supports" class="supports-item">
+              <span class="icon" :class="classMap[item.type]"></span>
+              <span class="text">{{item.description}}</span>
+            </li>
+          </ul>
+          <div class="title">
+            <div class="line"></div>
+            <div class="text">商家公告</div>
+            <div class="line"></div>
+          </div>
+          <div class="bulletin">
+            <p class="text">{{seller.bulletin}}</p>
+          </div>
         </div>
       </div>
       <div class="detail-close">
         <i class="icon-close" @click="closeDetail"></i>
       </div>
     </div>
+    </transition>
   </div>
 </template>
 
@@ -114,7 +138,6 @@
             font-weight: bold;
             margin-left: 6px;
             vertical-align middle;
-
           }
         }
         .description {
@@ -211,6 +234,7 @@
       filter: blur(6px);
       z-index: -1;
     }
+
     .detail {
       position: fixed;
       top: 0;
@@ -221,6 +245,12 @@
       color: #fff;
       background: rgba(7, 17, 27, 0.8);
       z-index: 100;
+      backdrop-filter: blur(8px);
+      transition: all 0.5s;
+      &.fade-enter, &.fade-leave-active{
+        opacity: 0;
+        background: rgba(7, 17, 27, 0.8);
+      }
       .detail-wrapper {
         min-height: 100%;
         .detail-main {
@@ -232,6 +262,76 @@
             color: #fff;
             text-align: center;
             line-height: 16px;
+          }
+          .star-wrapper{
+            margin-top: 16px;
+            text-align: center;
+          }
+          .title{
+            display: flex;
+            width: 80%;
+            margin: 28px auto 24px auto;
+            .line{
+              flex: 1;
+              position: relative;
+              top: -6px;
+              border-bottom: 1px solid rgba(255,255,255,0.2)
+            }
+            .text{
+              font-size: 14px;
+              padding: 0 12px;
+              font-weight: 700;
+            }
+          }
+          .supports{
+            width: 80%;
+            margin: 0 auto;
+            .supports-item{
+              padding: 0 12px;
+              font-size: 0;
+              margin-bottom: 12px;
+              &:last-child{
+                margin-bottom: 0;
+              }
+              .icon{
+                display: inline-block;
+                width: 16px;
+                height: 16px;
+                margin-right: 6px;
+                vertical-align: top;
+                background-size: 16px 16px;
+                &.decrease {
+                  bg-image('decrease_2');
+                }
+                &.discount {
+                  bg-image('discount_2');
+                }
+                &.guarantee {
+                  bg-image('guarantee_2');
+                }
+                &.invoice {
+                  bg-image('invoice_2');
+                }
+                &.special {
+                  bg-image('./special_2');
+                }
+              }
+              .text{
+                font-size: 12px;
+                font-weight: 200;
+                line-height: 16px;
+              }
+            }
+          }
+          .bulletin{
+            width: 80%;
+            margin: 0 auto;
+            .text{
+              padding: 0 12px;
+              font-size: 12px;
+              font-weight: 200;
+              line-height 24px;
+            }
           }
         }
       }

@@ -1,7 +1,6 @@
 <template>
   <div id="app">
     <v-header :seller="seller"></v-header>
-    <!--<img src="./assets/logo.png">-->
     <div class="tab border-1px">
       <div class="tab-item">
         <router-link to="/goods">商品</router-link>
@@ -13,8 +12,9 @@
         <router-link to="/seller">商家</router-link>
       </div>
     </div>
-
-    <router-view></router-view>
+    <keep-alive>
+      <router-view :seller="seller"></router-view>
+    </keep-alive>
   </div>
 </template>
 
@@ -37,6 +37,9 @@
     },
     components: {
       'v-header': header
+    },
+    render() {
+      return ''
     }
   }
 </script>
