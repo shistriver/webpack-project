@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="js-list"></div>
+<script>
+(function (){
+    const ndContainer = document.getElementById('js-list');
+    if(!ndContainer){
+        return;
+    }
+    const total = 3000;
+    const batchSize = 4; //插入的节点数，越多越卡
+    const batchCount = total / batchSize; //批数
+    var batchDone = 0;
+
+    function appendItems() {
+       const fragment = document.createDocumentFragment();
+       for(var i=0; i < batchSize; i++){
+           const ndItem = document.createElement('li');
+           ndItem.innerHTML = (batchDone * batchSize) + i + 1;
+           fragment.appendChild(ndItem);
+       }
+       ndContainer.appendChild(fragment);
+        batchDone += 1;
+        //批量处理
+        appendBatches();
+    }
+
+    function appendBatches(){
+       if(batchDone < batchCount) {
+           window.requestAnimationFrame(appendItems)
+       }
+    }
+
+    appendBatches();
+
+    ndContainer.addEventListener('click', function (e) {
+        var target = e.target;
+        if(target.tagName === 'LI'){
+            alert(target.innerText);
+        }
+    })
+
+})();
+</script>
+</body>
+</html>

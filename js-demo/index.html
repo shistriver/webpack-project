@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>事件</title>
+    <style>
+        #div1{
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+    </style>
+</head>
+<body>
+    <div id="div1">点击</div>
+    <div>
+        <p>centent</p>
+        <ul>
+            <li>li-item
+                <div>
+                    <span>text</span>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <script>
+        /**
+         * 事件的兼容性问题总结（常见）
+         * 1、事件对象本身：标准浏览器是事件发生时自动给方法传递一个参数（e），这个参数就是事件对象。IE是全局的window.event.
+         * 2、阻止事件传播：e.stopPropagation这个方法，IE是e.cancelBubble=true 这个属性；
+         * 3、阻止默认行为：e.preventDefault()方法，IE是e.returnValue=false；
+         * 4、事件源：e.target IE是e.srcElement;
+         * 5、e.pageX,e.pageY; IE不支持这两个属性；
+         * 6、DOM二级的事件绑定：ele.addEventListener, IE是ele.attachEvent;
+         * 7、IE的attach绑定的方法上：1、this不是当前的元素，执行顺序是混乱的
+         *
+         */
+
+        var ele = document.getElementById('div1');
+        document.onkeydown = function (e) {
+            var e = e || window.event;
+            switch(e.keyCode){
+                case 37:
+                  ele.style.left = ele.offsetLeft - 5 + 'px';
+                  break;
+                case 38:
+                  ele.style.top = ele.offsetTop - 5 + 'px';
+                    break;
+                case 39:
+                    ele.style.left = ele.offsetLeft + 5 + 'px';
+                    break;
+                case 40:
+                    ele.style.top = ele.offsetTop + 5 + 'px';
+                    break;
+            }
+        }
+        document.onclick = function(e){
+            e = e || window.event;
+            var target = target || e.srcElement;
+            console.log(target.nodeName);
+            return false;
+        }
+
+        function bind(ele, type, handler){ //绑定事件
+            if(ele.addEventListener){
+                ele.addEventListener(type, handler, false);
+            }else if(ele.attachEvent){
+                ele.attachEvent('on'+type, handler);
+            }
+        }
+
+        function unbind(ele, type, handler){
+            if(ele.removeEventListener){
+                ele.removeEventListener(type, handler, false);
+            }else if(ele.detachEvent){
+                ele.detachEvent('on'+type, handler);
+            }
+        }
+    </script>
+</body>
+</html>
