@@ -61,10 +61,10 @@
         //如果存在,先自增当前菜品中的num，再设置购物车的数量
         //如果不存在，直接往购物车中push一个新的菜品
         if (this.$store.state.cart.curIndex != -1) {
-          console.log('add_db');
+          //console.log('add_db');
           this.$store.dispatch('add_db');
         } else {
-          console.log('create_db');
+          //console.log('create_db');
           this.$set(shop, 'num', 1);
           this.$store.dispatch('create_db', {
             shop

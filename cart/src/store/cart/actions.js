@@ -1,28 +1,5 @@
 import * as types from './mutations_types';
 
-
-/*var actions = {};
-var mts = Object.keys(types);
-for (var i = 0; i < mts.length; i++) {
-    var fun_name = mts[i].toLocaleLowerCase(),
-        cmt_name = mts[i];
-
-    // console.log(fun_name, cmt_name);
-
-    actions[fun_name] = (function() {
-        return function({
-            commit
-        }, arg) {
-            console.log(types[cmt_name]);
-            commit(types[cmt_name], arg);
-            commit(types.UPDATE_LOCAL);
-        }
-    })();
-}
-console.log(actions);
-module.exports = actions;*/
-
-
 export default {
     clear_local: ({
         commit
